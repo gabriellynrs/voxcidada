@@ -130,3 +130,78 @@
       text-decoration: none;
       text-align: center;
       border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-call    { background: var(--orange); color: #fff; }
+    .btn-call:hover { background: var(--orange-light); }
+    .btn-primary { background: var(--navy); color: #fff; }
+    .btn-primary:hover { background: var(--navy-light); }
+    .btn-secondary { background: var(--bg); color: var(--navy); border: 1.5px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); }
+
+    /* TIPS */
+    .tips-box {
+      background: #FFF8E1;
+      border: 1.5px solid #FFD54F;
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .tips-box h4 { font-size: 0.82rem; font-weight: 700; color: #7B5800; margin-bottom: 10px; }
+    .tips-box ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .tips-box li {
+      font-size: 0.81rem; color: #5A4200;
+      padding-left: 14px; position: relative; line-height: 1.5;
+    }
+    .tips-box li::before { content: "•"; position: absolute; left: 0; color: #F9A825; font-weight: 700; }
+
+    /* ABOUT */
+    .about-section {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px 36px;
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 28px; }
+    .about-block h4 {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--orange); margin-bottom: 8px;
+    }
+    .about-block p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+    .about-intro { font-size: 0.95rem; color: var(--text); line-height: 1.75; }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 28px 20px;
+      font-size: 0.8rem; color: var(--text-muted);
+      border-top: 1px solid var(--border); margin-top: 8px;
+    }
+    footer strong { color: var(--navy); }
+
+    /* TABLET */
+    @media (max-width: 800px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    /* MOBILE */
+    @media (max-width: 500px) {
+      .emergency-bar { gap: 10px; font-size: 0.76rem; }
+      header { padding: 28px 16px 36px; }
+      .site-title { font-size: 1.5rem; }
+      main { padding: 28px 16px 48px; }
+      .about-section { padding: 24px 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card, .btn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="emergency-bar" role="banner" aria-label="Canais de emergência">
+    <span>Acesso rápido:</span>
+    <a
