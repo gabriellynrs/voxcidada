@@ -172,6 +172,24 @@
     .about-block p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
     .about-intro { font-size: 0.95rem; color: var(--text); line-height: 1.75; }
 
+    /* MODAL DE RELATO */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(26, 58, 92, 0.5); display: flex;
+      align-items: center; justify-content: center; z-index: 200;
+      opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-content {
+      background: var(--white); padding: 32px; border-radius: 20px;
+      max-width: 500px; width: 90%; box-shadow: var(--shadow-hover);
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .modal-content textarea {
+      width: 100%; padding: 12px; border-radius: 8px;
+      border: 1.5px solid var(--border); font-family: inherit; resize: none;
+    }
+
     /* FOOTER */
     footer {
       text-align: center; padding: 28px 20px;
@@ -240,10 +258,10 @@
         <div>
           <h3 class="card-title">Proteção Infantil</h3>
         </div>
-        <p class="card-desc">Criança ou adolescente em situação de risco, abuso, exploração ou abandono? Ligue para o Disque 100 ou acesse o painel informativo para entender a atuação da rede protetiva nacional.</p>
+        <p class="card-desc">Criança ou adolescente em situação de risco, abuso, exploração ou abandono? Ligue para o Disque 100 ou acesse diretamente o portal da Ouvidoria Nacional.</p>
         <div class="card-actions">
           <a href="tel:100" class="btn btn-call">Disque 100 — Ligar agora</a>
-          <a href="https://www.gov.br/mdh/pt-br/assuntos/noticias/2024/maio/disque-100-saiba-como-funciona-o-servico-de-denuncias-de-violacoes-de-direitos-humanos" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Encontrar Conselho Tutelar</a>
+          <a href="https://www.gov.br/mdh/pt-br/ondh" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Acessar Portal ONDH</a>
         </div>
       </div>
 
@@ -259,10 +277,10 @@
         <div>
           <h3 class="card-title">Proteção ao Idoso</h3>
         </div>
-        <p class="card-desc">Suspeita de negligência, violência física, psicológica ou financeira contra pessoa idosa? O Disque 100 atende 24h. Use o link digital abaixo para registrar formalmente no portal unificado.</p>
+        <p class="card-desc">Suspeita de negligência, violência física, psicológica ou financeira contra pessoa idosa? O Disque 100 atende 24h. Use o link digital para preencher a triagem oficial eletrônica.</p>
         <div class="card-actions">
           <a href="tel:100" class="btn btn-call">Disque 100 — Ligar agora</a>
-          <a href="https://www.gov.br/pt-br/servicos/registrar-denuncia-de-violacao-de-direitos-humanos" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Como registrar denúncia</a>
+          <a href="https://falabr.cgu.gov.br/publico/Manifestacao/SelecionarTipoManifestacao.aspx?idFormulario=1&tipo=1" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Registrar Denúncia Online</a>
         </div>
         <div class="tips-box">
           <h4>O que informar ao denunciar</h4>
@@ -288,9 +306,9 @@
         <div>
           <h3 class="card-title">Proteção Animal</h3>
         </div>
-        <p class="card-desc">Flagrou maus-tratos a animais domésticos ou silvestres? Encaminhe evidências digitais através da Plataforma integrada de Ouvidoria Federal (Fala.BR) direto para fiscalização do IBAMA.</p>
+        <p class="card-desc">Flagrou maus-tratos a animais domésticos ou silvestres? Prepare o seu relato interno e envie as evidências direto para a triagem integrada da Ouvidoria do IBAMA.</p>
         <div class="card-actions">
-          <a href="https://falabr.cgu.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Denunciar ao IBAMA</a>
+          <button type="button" class="btn btn-primary" onclick="openModal('animal')">Denunciar ao IBAMA</button>
           <a href="https://www.gov.br/ibama/pt-br/canais_atendimento/ouvidoria" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Outros canais ambientais</a>
         </div>
         <div class="tips-box">
@@ -318,7 +336,7 @@
         </div>
         <div class="about-block">
           <h4>Abordagem técnica</h4>
-          <p>Desenvolvido com foco em usabilidade (UX) and acessibilidade, com hierarquia de informação intuitiva — funciona bem tanto em computadores quanto em celulares.</p>
+          <p>Desenvolvido com foco em usabilidade (UX) e acessibilidade, com hierarquia de informação intuitiva — funciona bem tanto em computadores quanto em celulares.</p>
         </div>
         <div class="about-block">
           <h4>Compromisso</h4>
@@ -326,13 +344,74 @@
         </div>
       </div>
     </div>
-
   </main>
+
+  <div id="denunciaModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3 class="card-title" id="modalTitle">Registrar Relato</h3>
+      <p class="card-desc">Digite os detalhes abaixo. O texto será salvo localmente e copiado para sua área de transferência para que você possa colar no formulário oficial da Ouvidoria.</p>
+      <textarea id="relatoTexto" rows="5" placeholder="Descreva o local, horário e a situação observada..."></textarea>
+      <div style="display: flex; gap: 10px; width: 100%;">
+        <button type="button" class="btn btn-secondary" onclick="closeModal(null)">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="processarDenuncia()">Copiar e Ir para o Portal</button>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p><strong>Vox Cidadã</strong> — Rede de Proteção e Direitos &nbsp;·&nbsp; Projeto de Extensão Universitária · ADS</p>
     <p style="margin-top: 6px;">Em caso de emergência imediata, ligue <strong>190</strong> (Polícia) ou <strong>192</strong> (SAMU).</p>
   </footer>
 
+  <script>
+    let categoriaAtual = '';
+
+    function openModal(categoria) {
+      categoriaAtual = categoria;
+      const modal = document.getElementById('denunciaModal');
+      const title = document.getElementById('modalTitle');
+      
+      if(categoria === 'animal') {
+        title.innerText = "Relato de Maus-Tratos contra Animais";
+      }
+      modal.classList.add('active');
+    }
+
+    function closeModal(event) {
+      if(!event || event.target === document.getElementById('denunciaModal')) {
+        document.getElementById('denunciaModal').classList.remove('active');
+        document.getElementById('relatoTexto').value = '';
+      }
+    }
+
+    function processarDenuncia() {
+      const relato = document.getElementById('relatoTexto').value.trim();
+      if(!relato) {
+        alert("Por favor, preencha o seu relato antes de prosseguir.");
+        return;
+      }
+
+      // Demonstração técnica: Persistência simulada em LocalStorage (ótimo para projetos de ADS)
+      const registrosAntigos = JSON.parse(localStorage.getItem('vox_denuncias') || '[]');
+      registrosAntigos.push({
+        categoria: categoriaAtual,
+        timestamp: new Date().toISOString(),
+        conteudo: relato
+      });
+      localStorage.setItem('vox_denuncias', JSON.stringify(registrosAntigos));
+
+      // Copia para o Clipboard (Acessibilidade e usabilidade)
+      navigator.clipboard.writeText(relato).then(() => {
+        alert("O seu relato foi copiado automaticamente para a área de transferência! Vamos te redirecionar para a triagem exata do Fala.BR (IBAMA). Basta colar (Ctrl+V) no campo de texto do governo.");
+        
+        // Redireciona para o formulário específico de Denúncias (idFormulario=5 é o padrão para denúncias ambientais/IBAMA)
+        window.open("https://falabr.cgu.gov.br/publico/Manifestacao/SelecionarTipoManifestacao.aspx?idFormulario=5&tipo=1", "_blank");
+        closeModal(null);
+      }).catch(() => {
+        window.open("https://falabr.cgu.gov.br/publico/Manifestacao/SelecionarTipoManifestacao.aspx?idFormulario=5&tipo=1", "_blank");
+        closeModal(null);
+      });
+    }
+  </script>
 </body>
 </html>
